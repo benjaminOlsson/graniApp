@@ -1,0 +1,12 @@
+extends front
+block content
+  div#addTeamBox
+    form(method="post" action="addTeamCheck")#addTeamForm
+      p Team Name:
+      input(name="teamName" type="text")
+      p Sport:
+      select(name="sport")
+        option(value="handball") Handball
+        option(value="hockey") Hockey
+        option(value="football") Football
+        option(value="herseRiding") Horse Riding

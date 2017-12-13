@@ -1,0 +1,23 @@
+extends logged
+block content
+  a(href="/users/#{id}/calendar/add")#addNewPoint Add new
+  button#toggleWeek Month/Week
+  div#calendar
+    div#calendarHeader
+      button#lastMonth.changeMonth.changeLeft <
+      button#nextMonth.changeMonth.changeRight >
+      h1#calendarMonth
+    table#calendarTable
+      thead.calendarWeekDays
+        tr#calendarWeekDayHead
+          td.calendarDay Monday
+          td.calendarDay Tuesday
+          td.calendarDay Wednesday
+          td.calendarDay Thursday
+          td.calendarDay Friday
+          td.calendarDay Saturday
+          td.calendarDay Sunday
+      tbody#calendarId
+
+  script
+    include ../../public/javascript/calendar.js

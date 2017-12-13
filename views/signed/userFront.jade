@@ -1,0 +1,16 @@
+extends logged
+block content
+  div#profilePicDiv
+  h1#nameOfUser #{fname} #{lname}
+  div#personalInfo
+    ul#personalInfoUl
+      li.personalInfoLi Username: #{username}
+      li.personalInfoLi Email: #{email}
+      li.personalInfoLi Address: #{address} #{postcode}, #{city}
+  div#showGroups
+    h1#myGroups Groups
+      - a = group.length
+      - for(let i = 0; i < a; i++){
+      a(href="/users/#{id}/group/#{group[i]}").myGropes
+        p #{groupName[i]}
+      - }

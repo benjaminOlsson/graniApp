@@ -1,0 +1,7 @@
+#showSomething{
+  position: absolute;
+  margin: 100px 0 0 100px;
+  width: 500px;
+  height: 700px;
+  background-color: purple;
+}

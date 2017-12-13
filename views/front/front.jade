@@ -1,0 +1,27 @@
+html
+  head
+    title= title
+    link(rel="stylesheet" type="text/css" href="/styles/front/mainStyle.css")
+    link(rel="stylesheet" type="text/css" href="/styles/partials/headerStyle.css")
+    link(rel="stylesheet" type="text/css" href="/styles/front/login.css")
+    link(rel="stylesheet" type="text/css" href="/styles/front/signup.css")
+  body
+    div#headerDiv.noSpaces
+      div#centerHeadContent
+        a(href="/")
+          div#headerTitle
+            h1#headerTitleText Title goes here
+        ul#headerButtons
+          li.headerButtonsLi
+            a(href="/login")
+              button#headerLogin LogIn
+          li.headerButtonsLi
+            a(href="/signup")
+              button#headerLogin Sign Up
+          li.headerButtonsLi
+            a(href="/addTeam")
+              button#headerLogin Add Team
+        button#headerMenu Menu
+
+    div#mainBox
+      block content

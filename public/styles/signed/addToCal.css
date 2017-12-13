@@ -1,0 +1,19 @@
+#addingBox{
+  position: absolute;
+  width: 1200px;
+  height: 600px;
+  background-color: purple;
+  margin: 100px 0 0 200px;
+}
+#addBoxHeader{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 80px;
+  background-color: green;
+}
+#addBoxHeaderText{
+  text-align: center;
+  margin: 0;
+  padding-top: 20px;
+}

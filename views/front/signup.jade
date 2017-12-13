@@ -1,0 +1,43 @@
+extends front
+block content
+  div#signupPosDown
+    div#signupDiv
+      form(method="post" action="/signup/check")#signupForm
+        p First Name:
+        input(type="text" name="firstName")
+        br
+        p Last Name:
+        input(type="text" name="lastName")
+        br
+        p Gender:
+        select(name="gender")
+          option(value="Male") Male
+          option(value="Female") Female
+        br
+        p Age:
+        select(name="age")
+          - for(var i = 14; i < 66; i++){
+          option(value="#{i}") #{i}
+          - }
+        br
+        p Address:
+        input(type="text" name="address")
+        br
+        p Postalcode:
+        input(type="text" name="postCode")
+        p City:
+        input(type="text" name="city")
+        br
+        p Username:
+        input(type="text" name="username")
+        br
+        p Password:
+        input(type="password" name="password1")
+        br
+        p Enter password again:
+        input(type="password" name="password2")
+        br
+        p Email:
+        input(type="text" name="email")
+        br
+        input(type="submit" name="submit")

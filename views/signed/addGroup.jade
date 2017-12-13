@@ -1,0 +1,10 @@
+extends logged
+block content
+  div#aTG
+    h1 Add a group
+    form(method="POST" action="/users/#{o_id}/addGroupValidate")
+      input(name="name" type="text")
+      br
+      input(name="moderator" type="text")
+      br
+      input(name="submit" type ="submit")

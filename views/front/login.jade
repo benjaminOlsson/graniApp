@@ -1,0 +1,15 @@
+extends front
+block content
+  div#formPlacing
+    form(method="post" action="/login/check")#loginForm
+      h1.contentHeader.noSpaces Login here
+      p.formLabel Username
+      br
+      input(type="text" name="username").loginInput
+      br
+      br
+      p.formLabel Password:
+      br
+      input(type="password" name="password").loginInput
+      br
+      input(type="submit" name="submit").formSubmit
