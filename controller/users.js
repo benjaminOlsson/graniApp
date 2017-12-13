@@ -179,7 +179,11 @@ module.exports.addToCal = function(req, res){
 module.exports.addToCalCheck = function(req, res){
 
 };
-//Add a team to the database
+//Add a team page
 module.exports.addTeam = function(req, res){
   res.render('signed/addTeam');
+}
+//Add the team to the teams database
+module.exports.addTeamValidate = function(req, res){
+  
 }
