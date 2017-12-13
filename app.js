@@ -34,5 +34,6 @@ app.use('/users/:id/calendar', users);
 app.use('/users/:id/calendar/add', users);
 app.use('/users/:id/addToCalCheck', users);
 app.use('/users/:id/addTeam', users);
+app.use('/users/:id/addTeamValidate', users);
 
-app.listen(3000);
+app.listen(3000, function(){console.log("Using port 3000")});

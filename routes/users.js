@@ -12,4 +12,5 @@ router.get('/:id/calendar/add', contrUsers.addToCal);
 router.post('/:id/addToCalCheck', contrUsers.addToCalCheck);
 //Add a team to the database
 router.get('/:id/addTeam', contrUsers.addTeam);
+router.post('/:id/addTeamValidate', contrUsers.addTeamValidate);
 module.exports = router;

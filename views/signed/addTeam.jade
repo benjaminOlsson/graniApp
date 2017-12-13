@@ -1,7 +1,7 @@
-extends front
+extends logged
 block content
   div#addTeamBox
-    form(method="post" action="addTeamCheck")#addTeamForm
+    form(method="post" action="addTeamValidate")#addTeamForm
       p Team Name:
       input(name="teamName" type="text")
       p Sport:
@@ -10,3 +10,4 @@ block content
         option(value="hockey") Hockey
         option(value="football") Football
         option(value="herseRiding") Horse Riding
+      input(name="submit" type="submit")

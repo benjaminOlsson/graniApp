@@ -3,10 +3,17 @@ block content
   div#profilePicDiv
   h1#nameOfUser #{fname} #{lname}
   div#personalInfo
+    h3 User Info
     ul#personalInfoUl
       li.personalInfoLi Username: #{username}
       li.personalInfoLi Email: #{email}
       li.personalInfoLi Address: #{address} #{postcode}, #{city}
+    h3 Users Teams
+    ul#personalInfoUl
+      - b = team.length
+      - for(let i = 0; i < b; i++){
+        li.personalInfo #{team[i]}
+      - }
   div#showGroups
     h1#myGroups Groups
       - a = group.length

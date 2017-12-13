@@ -29,6 +29,18 @@ module.exports.frontPage = function(req, res){
               user.group = result[0].groups;
               user.id = o_id;
               user.groupName = [];
+              user.team = [];
+              collection = db.collection('teams');
+              collection.find({"users": {"$all": [o_id]}}).toArray(function(err, result){
+                if(err){
+                  console.log(err);
+                }else{
+                  for(let i = 0; i < result.length; i++){
+                    user["team"].push(result[i].name);
+                    console.log(user);
+                  }
+                }
+              });
               }
             });
             var g_id;
@@ -126,7 +138,7 @@ module.exports.addGroupValidate = function(req, res){
       var group1 = {
         name: req.body.name,
         moderator: req.body.moderator,
-        created: Date()
+        created: new Date()
       };
       var collection = db.collection('groups');
       collection.insert(group1, function(err, result){
@@ -181,9 +193,33 @@ module.exports.addToCalCheck = function(req, res){
 };
 //Add a team page
 module.exports.addTeam = function(req, res){
-  res.render('signed/addTeam');
+  var id = req.params.id;
+  res.render('signed/addTeam', {
+    id: id
+  });
 }
 //Add the team to the teams database
 module.exports.addTeamValidate = function(req, res){
-  
+  var o_id = new mongodb.ObjectId(req.params.id);
+  MongoClient.connect(url, function(err, db){
+    if(err){
+      console.log(err);
+    }else{
+      var collection = db.collection('teams');
+      var team = {
+        name: req.body.teamName,
+        sport: req.body.sport,
+        users: [o_id],
+        created: new Date()
+      };
+      collection.insert([team], function(err, result){
+        if(err){
+          console.log(err);
+        }else{
+          db.close();
+          res.redirect('/users/' + o_id);
+        }
+      });
+    }
+  });
 }
