@@ -37,7 +37,6 @@ module.exports.frontPage = function(req, res){
                 }else{
                   for(let i = 0; i < result.length; i++){
                     user["team"].push(result[i].name);
-                    console.log(user);
                   }
                 }
               });
@@ -47,9 +46,9 @@ module.exports.frontPage = function(req, res){
             var inter = setInterval(function(){
               if(user.group.length > 0){
                 for(let i = 0; i < user.group.length; i++){
-                  g_id = new mongodb.ObjectId(user.group[i]);
+                  g_id = user.group[i];
                   collection = db.collection('groups');
-                  collection.find({"_id": g_id}).toArray(function(err, result){
+                  collection.find({"_id": g_id.id}).toArray(function(err, result){
                     if(err){
                       console.log(err);
                       clearInterval(inter);
@@ -81,11 +80,11 @@ module.exports.usersOnly = function(req, res){
 module.exports.group = function(req, res){
   var groupInfo = {};
   var id = new mongodb.ObjectId(req.params.id);
+  var groupId = new mongodb.ObjectId(req.params.group);
   MongoClient.connect(url, function(err, db){
     if(err){
       console.log(err);
     }else{
-      var groupId = new mongodb.ObjectId(req.params.group);
       var collection = db.collection('groups');
       collection.find({"_id": groupId}).toArray(function(err, result){
         if(err){
@@ -113,19 +112,40 @@ module.exports.group = function(req, res){
   };
 //The page for adding groupes
 module.exports.addGroup = function(req, res){
+  var team = [];
+  var o_id;
   MongoClient.connect(url, function(err, db){
     if(err){
       console.log(err);
     }else{
     var collection = db.collection('users');
     o_id = new mongodb.ObjectID(req.params.id);
-    res.render('signed/addGroup', {
-      title: "Add Group",
-      id: o_id
+    collection = db.collection('teams');
+    collection.find({"users": [o_id]}).toArray(function(err, result){
+      if(err){
+        console.log(err);
+      }else{
+        if(result.length > 0){
+          for(let i = 0; i < result.length; i++){
+            var t_id = new mongodb.ObjectId(result[i]._id);
+            team[i] = {name: result[i].name, id: t_id};
+            res.render('signed/addGroup', {
+              title: "Add Group",
+              id: o_id,
+              team: team
+            });
+          }
+        }else{
+          res.render('signed/addGroup', {
+            title: "Add Group",
+            id: o_id,
+            team: team
+          });
+        }
+      }
     });
-  }
-  db.close();
-  });
+    }
+    });
 };
 //The page that validates a new added groupe
 module.exports.addGroupValidate = function(req, res){
@@ -150,27 +170,36 @@ module.exports.addGroupValidate = function(req, res){
         if(err){
           console.log("error at 2");
         }else if(result.length > 0){
-          groupId = result[0]._id;
+          groupId = new mongodb.ObjectId(result[0]._id);
           groupName = result[0].name;
         }
       });
-      var inter = setInterval(function(){
-      if(groupId !== 0 || groupId !== 'null' || groupId !== null){
-      collection = db.collection('users');
-      collection.update({"_id": o_id}, {"$push": {"groups": groupId}}, function(err, result){
-        if(err){
-          console.log(err);
-          clearInterval(inter);
-        }else{
-          console.log("group set");
-          res.redirect('users/' + o_id);
-          clearInterval(inter);
+      var t_id = new mongodb.ObjectId(req.body.team);
+      collection = db.collection('teams');
+      var testgId = setInterval(function(){
+        if((groupId !== 0) || (groupId !== "0") || (groupId !== 'null') || (groupId !== null) || (groupId !== undefined)){
+          var pushGroup = {"name": groupName, "id": groupId};
+              collection.update({"_id": t_id}, {$push: {"groups": groupId}}, function(err, result){
+                if(err){
+                  console.log(err);
+                  clearInterval(testgId);
+                }else{
+                  collection = db.collection('users');
+                  collection.update({"_id": o_id}, {"$push": {"groups": pushGroup}}, function(err, result){
+                    if(err){
+                      console.log("2");
+                      clearInterval(testgId);
+                    }else{
+                      console.log("pushed groupId to user");
+                      res.redirect('/users/' + o_id);
+                      clearInterval(testgId);
+                    }
+                });
+                }
+              });
         }
-      });
-      }
-    }, 100);
-  }
-  db.close();
+      }, 200);
+    }
   });
 };
 //The calendar page
@@ -210,6 +239,7 @@ module.exports.addTeamValidate = function(req, res){
         name: req.body.teamName,
         sport: req.body.sport,
         users: [o_id],
+        groups: [],
         created: new Date()
       };
       collection.insert([team], function(err, result){

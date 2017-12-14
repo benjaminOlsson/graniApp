@@ -1,10 +1,23 @@
 extends logged
 block content
   div#aTG
-    h1 Add a group
-    form(method="POST" action="/users/#{o_id}/addGroupValidate")
+    h1 Add a group #{team.name}
+    - a = team.length
+    - if(a > 0){
+    form(method="POST" action="/users/#{id}/addGroupValidate")
+      select(name="team")
+        - for(let i = 0; i < a; i++){
+        option(value="#{team[i].id}") #{team[i].name}
+        - }
+      br
       input(name="name" type="text")
       br
       input(name="moderator" type="text")
       br
       input(name="submit" type ="submit")
+    - }else{
+      h3 You need to belong to a team before you can add a group
+      br
+      h3 Add a team
+      a(href="/users/#{id}/addTeam") HERE
+    - }

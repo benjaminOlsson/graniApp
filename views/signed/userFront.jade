@@ -18,6 +18,7 @@ block content
     h1#myGroups Groups
       - a = group.length
       - for(let i = 0; i < a; i++){
-      a(href="/users/#{id}/group/#{group[i]}").myGropes
+      - groupPath = group[i].id
+      a(href="/users/#{id}/group/#{groupPath}").myGropes
         p #{groupName[i]}
       - }
