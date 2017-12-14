@@ -95,6 +95,7 @@ module.exports.signupCheck = function(req, res){
         username: req.body.username,
         password: req.body.password1,
         email: req.body.email,
+        teams: [],
         groups: []
       };
       MongoClient.connect(url, function(err, db){

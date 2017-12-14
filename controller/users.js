@@ -29,17 +29,7 @@ module.exports.frontPage = function(req, res){
               user.group = result[0].groups;
               user.id = o_id;
               user.groupName = [];
-              user.team = [];
-              collection = db.collection('teams');
-              collection.find({"users": {"$all": [o_id]}}).toArray(function(err, result){
-                if(err){
-                  console.log(err);
-                }else{
-                  for(let i = 0; i < result.length; i++){
-                    user["team"].push(result[i].name);
-                  }
-                }
-              });
+              user.teams = result[0].teams;
               }
             });
             var g_id;
@@ -230,6 +220,7 @@ module.exports.addTeam = function(req, res){
 //Add the team to the teams database
 module.exports.addTeamValidate = function(req, res){
   var o_id = new mongodb.ObjectId(req.params.id);
+  var storeId = 0;
   MongoClient.connect(url, function(err, db){
     if(err){
       console.log(err);
@@ -246,10 +237,26 @@ module.exports.addTeamValidate = function(req, res){
         if(err){
           console.log(err);
         }else{
-          db.close();
-          res.redirect('/users/' + o_id);
+          storeId = {id: result.ops[0]._id, name: result.ops[0].name};
+          var storeTeamId = setInterval(function(){
+            if((storeId.id !== 0) || (storeId.id !== "0") || (storeId.id !== null) || (storeId.id !== 'null') || (storeId.id !== undefined) || (storeId.id !== "undefined")){
+              console.log(storeId);
+              clearInterval(storeTeamId);
+              collection = db.collection('users');
+              collection.update({"_id": o_id}, {$push: {"teams": storeId}}, function(err, result){
+                  if(err){
+                    console.log("error to userDB");
+                    clearInterval(storeTeamId);
+                  }else{
+                    db.close();
+                    res.redirect('/users/' + o_id);
+                    clearInterval(storeTeamId);
+                  }
+              });
+            }
+          }, 200);
         }
-      });
-    }
-  });
-}
+        });
+      }
+    });
+  };

@@ -10,9 +10,9 @@ block content
       li.personalInfoLi Address: #{address} #{postcode}, #{city}
     h3 Users Teams
     ul#personalInfoUl
-      - b = team.length
+      - b = teams.length
       - for(let i = 0; i < b; i++){
-        li.personalInfo #{team[i]}
+        a(href="/users/#{id}/teams/#{teams[i].id}").personalInfo #{teams[i].name}
       - }
   div#showGroups
     h1#myGroups Groups
