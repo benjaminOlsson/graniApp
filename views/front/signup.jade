@@ -3,41 +3,41 @@ block content
   div#signupPosDown
     div#signupDiv
       form(method="post" action="/signup/check")#signupForm
-        p First Name:
-        input(type="text" name="firstName")
+        p.center First Name:
+        input(type="text" name="firstName").center
         br
-        p Last Name:
-        input(type="text" name="lastName")
+        p.center Last Name:
+        input(type="text" name="lastName").center
         br
-        p Gender:
-        select(name="gender")
+        p.center Gender:
+        select(name="gender").center
           option(value="Male") Male
           option(value="Female") Female
         br
-        p Age:
-        select(name="age")
+        p.center Age:
+        select(name="age").center
           - for(var i = 14; i < 66; i++){
           option(value="#{i}") #{i}
           - }
         br
-        p Address:
-        input(type="text" name="address")
+        p.center Address:
+        input(type="text" name="address").center
         br
-        p Postalcode:
-        input(type="text" name="postCode")
-        p City:
-        input(type="text" name="city")
+        p.center Postalcode:
+        input(type="text" name="postCode").center
+        p.center City:
+        input(type="text" name="city").center
         br
-        p Username:
-        input(type="text" name="username")
+        p.center Username:
+        input(type="text" name="username").center
         br
-        p Password:
-        input(type="password" name="password1")
+        p.center Password:
+        input(type="password" name="password1").center
         br
-        p Enter password again:
-        input(type="password" name="password2")
+        p.center Enter password again:
+        input(type="password" name="password2").center
         br
-        p Email:
-        input(type="text" name="email")
+        p.center Email:
+        input(type="text" name="email").center
         br
-        input(type="submit" name="submit")
+        input(type="submit" name="submit").center

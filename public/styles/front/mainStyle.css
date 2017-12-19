@@ -3,6 +3,7 @@ html body{
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: lightgray;
 }
 .noSpaces{
   margin: 0;
@@ -14,24 +15,22 @@ a{
   cursor: pointer;
 }
 #mainBox{
-  width: 1600px;
-  height: 2000px;
-  background-color: yellow;
+  width: 1200px;
+  height: 1000px;
   margin: 0 auto;
+  background-color: white;
 }
 #contentLeft{
   position: absolute;
   margin: 30px 0 0 50px;
-  width: 800px;
-  height: 1000px;
-  background-color: purple;
+  width: 500px;
+  height: 700px;
 }
 #contentTopRight{
   position: absolute;
-  margin: 30px 0 0 950px;
-  width: 600px;
+  margin: 30px 0 0 600px;
+  width: 500px;
   height: 700px;
-  background-color: purple;
 }
 .contentBox{
 
@@ -42,5 +41,5 @@ a{
 }
 .contentText{
   margin: 0 20px 0 20px;
-  font-size: 25px;
+  font-size: 16px;
 }

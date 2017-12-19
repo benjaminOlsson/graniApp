@@ -213,7 +213,6 @@
             cell.className = "calendarToday";
           }
         }
-        console.log(tmp);
     }
   //Calculate week
     function getWeek(){
@@ -255,9 +254,9 @@
       for(let i = 0; i < tmp[0].month; i++){
         daysTillNow += days[i];
       }
-      daysTillNow += tmp[0].date - yearStart[tmp[0].year];
+      daysTillNow += (tmp[0].date) - yearStart[tmp[0].year];
       weekThisWeek = Math.floor((daysTillNow / 7) + 1);
-      calendarMonth.innerText = weekThisWeek;
+      calendarMonth.innerText = weekThisWeek + " " ;
   }
   //Change week
     function nextWeek(){

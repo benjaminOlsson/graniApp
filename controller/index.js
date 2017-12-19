@@ -47,7 +47,7 @@ module.exports.loginCheck = function(req, res){
             res.cookie('user', username);
             res.redirect(redirr);
           }else{
-            res.redirect('front/login');
+            res.redirect('/login');
           }
         }else{
           res.redirect('/login');
@@ -95,8 +95,10 @@ module.exports.signupCheck = function(req, res){
         username: req.body.username,
         password: req.body.password1,
         email: req.body.email,
+        profilePic: "",
         teams: [],
-        groups: []
+        groups: [],
+        children:[]
       };
       MongoClient.connect(url, function(err, db){
         if(err){

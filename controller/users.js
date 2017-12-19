@@ -2,6 +2,10 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://localhost:27017/myApp'
 
+//The 404 page for goint to users without an valid id
+module.exports.usersOnly = function(req, res){
+    res.send(404, "page not found");
+  };
 //The frontpage for the logged user
 module.exports.frontPage = function(req, res){
   var user = {};
@@ -62,10 +66,6 @@ module.exports.frontPage = function(req, res){
           });
         }
       };
-//The 404 page for goint to users without an valid id
-module.exports.usersOnly = function(req, res){
-  res.send(404, "page not found");
-};
 //The standard group page
 module.exports.group = function(req, res){
   var groupInfo = {};
@@ -81,17 +81,17 @@ module.exports.group = function(req, res){
           console.log(err);
         }else{
         groupInfo.name = result[0].name;
-        groupInfo.mod = result[0].moderator;
+        groupInfo.description = result[0].description;
         groupInfo.created = result[0].created;
       }
       });
       var inter = setInterval(function(){
         if(groupInfo.name !== 'undefined' && groupInfo.mod !== 'undefined'){
+          console.log(groupInfo);
           res.render('signed/group', {
-            title: groupInfo.name,
-            moderator: groupInfo.mod,
-            created: groupInfo.created,
-            id: id
+            id: id,
+            name: groupInfo.name,
+            description: groupInfo.description
           });
           db.close();
           clearInterval(inter);
@@ -147,7 +147,9 @@ module.exports.addGroupValidate = function(req, res){
     }else{
       var group1 = {
         name: req.body.name,
-        moderator: req.body.moderator,
+        description: req.body.description,
+        moderators: [o_id],
+        users: [o_id],
         created: new Date()
       };
       var collection = db.collection('groups');
@@ -167,8 +169,9 @@ module.exports.addGroupValidate = function(req, res){
       var t_id = new mongodb.ObjectId(req.body.team);
       collection = db.collection('teams');
       var testgId = setInterval(function(){
-        if((groupId !== 0) || (groupId !== "0") || (groupId !== 'null') || (groupId !== null) || (groupId !== undefined)){
-          var pushGroup = {"name": groupName, "id": groupId};
+        if((groupId !== 0) || (groupId !== "0") || (groupId !== 'null') || (groupId !== null) || (groupId !== undefined) || (groupId !== 'undefined')){
+          if((groupName !== 0) || (groupName !== "0") || (groupName !== 'null') || (groupName !== null) || (groupName !== undefined) || (groupName !== 'undefined')){
+            var pushGroup = {"name": groupName, "id": groupId};
               collection.update({"_id": t_id}, {$push: {"groups": groupId}}, function(err, result){
                 if(err){
                   console.log(err);
@@ -188,10 +191,22 @@ module.exports.addGroupValidate = function(req, res){
                 }
               });
         }
+      }
       }, 200);
     }
+
+
   });
 };
+//Remove a group
+module.exports.removeGroup = function(req, res){
+  var group = new mongodb.ObjectId(req.params.group);
+  var id = new mongodb.ObjectId(req.params.id);
+  MongoClient.connect(url, function(err, db){
+    var collection = db.collection('groups');
+    collection.remove({})
+  });
+}
 //The calendar page
 module.exports.calendar = function(req, res){
   res.render('signed/calendar', {
@@ -208,7 +223,53 @@ module.exports.addToCal = function(req, res){
 };
 //Adding the calendar input to mongoDb
 module.exports.addToCalCheck = function(req, res){
+  /*MongoClient.connect(url, function(err, db){
+    if(err){
+      console.log(err);
+    }else{
+      var calendarInput = {
+        year: req.body.year,
+        month: req.body.month,
+        day: req.body.dayOfMonth,
 
+      }
+    }
+  });*/
+};
+//Page for an overview of the team
+module.exports.teams = function(req, res){
+  var id = new mongodb.ObjectId(req.params.id);
+  var t_id = new mongodb.ObjectId(req.params.teamId);
+  var teamInfo = {};
+  MongoClient.connect(url, function(err, db){
+    if(err){
+      console.log("connect err", err);
+    }else{
+      var collection = db.collection('teams');
+      collection.find({"_id": t_id}).toArray(function(err, result){
+        if(err){
+          console.log("id err", err);
+        }else{
+          teamInfo.name = result[0].name;
+          teamInfo.description = result[0].description;
+          teamInfo.sport = result[0].sport;
+        }
+      });
+      var checkInfo = setInterval(function(){
+        if((teamInfo.sport != undefined) || (teamInfo.sport != 'undefined')){
+          console.log("1");
+          db.close();
+          res.render('signed/teams', {
+            id: id,
+            name: teamInfo.name,
+            description: teamInfo.description,
+            sport: teamInfo.sport
+          });
+          clearInterval(checkInfo);
+        }
+      }, 200);
+    }
+  });
 };
 //Add a team page
 module.exports.addTeam = function(req, res){
@@ -221,6 +282,7 @@ module.exports.addTeam = function(req, res){
 module.exports.addTeamValidate = function(req, res){
   var o_id = new mongodb.ObjectId(req.params.id);
   var storeId = 0;
+  var person = {};
   MongoClient.connect(url, function(err, db){
     if(err){
       console.log(err);
@@ -228,7 +290,9 @@ module.exports.addTeamValidate = function(req, res){
       var collection = db.collection('teams');
       var team = {
         name: req.body.teamName,
+        description: req.body.description,
         sport: req.body.sport,
+        moderators: [o_id],
         users: [o_id],
         groups: [],
         created: new Date()

@@ -1,22 +1,21 @@
 #profilePicDiv{
   position: absolute;
-  margin: 80px 0 0 80px;
-  width: 200px;
-  height: 300px;
+  margin: 40px 0 0 60px;
+  width: 150px;
+  height: 250px;
   background-color: purple;
 }
 #nameOfUser{
   position: absolute;
-  width: 800px;
-  margin: 30px 0 0 400px;
+  width: 1200px;
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
 }
 #personalInfo{
   position: absolute;
-  width: 400px;
-  height: 500px;
-  margin: 80px 0 0 1160;
+  width: 300px;
+  height: 400px;
+  margin: 80px 0 0 850;
   background-color: purple;
   font-size: 20px;
 }
@@ -31,9 +30,9 @@
 #showGroups{
   background-color: purple;
   position: absolute;
-  margin: 100px 0 0 320px;
-  width: 800px;
-  height: 1000px;
+  margin: 100px 0 0 220px;
+  width: 500px;
+  height: 900px;
 }
 #myGroups{
   width: 100%;

@@ -5,3 +5,10 @@
   height: 700px;
   background-color: purple;
 }
+#removeGroup{
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  background-color: red;
+  margin: 20px 0 0 1080px;
+}

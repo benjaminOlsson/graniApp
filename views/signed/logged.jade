@@ -14,12 +14,11 @@ html
       div#centerHeadContent
         a(href="/users/#{id}")
           div#headerTitle
-            h1#headerTitleText Title goes here
-        button#headerMenu Menu
-        a(href="/users/#{id}/addGroup")#headerAddGroup Add Group
-        a(href="/logout")#logOut Log Out
-        a(href="/users/#{id}/calendar")#headerCalendar Calendar
-        a(href="/users/#{id}/addTeam")#headerAddTeam Add Team
+            h1#headerTitleText TeamBuilder
+        a(href="/users/#{id}/addGroup")#headerAddGroup.gray Add Group
+        a(href="/logout")#logOut.gray Log Out
+        a(href="/users/#{id}/calendar")#headerCalendar.gray Calendar
+        a(href="/users/#{id}/addTeam")#headerAddTeam.gray Add Team
 
     div#mainBox
       block content

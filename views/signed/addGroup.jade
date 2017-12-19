@@ -9,10 +9,13 @@ block content
         - for(let i = 0; i < a; i++){
         option(value="#{team[i].id}") #{team[i].name}
         - }
+      p Name:
       br
       input(name="name" type="text")
       br
-      input(name="moderator" type="text")
+      p Description:
+      br
+      textarea(name="description")
       br
       input(name="submit" type ="submit")
     - }else{

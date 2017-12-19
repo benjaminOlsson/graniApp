@@ -4,6 +4,8 @@
 #signupDiv{
   width: 500px;
   height: 700px;
-  background-color: red;
   margin: 0 auto;
+}
+.center{
+  margin-left: 200px;
 }

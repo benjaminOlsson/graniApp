@@ -5,6 +5,7 @@ var path = require('path');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var api = require('./routes/api');
 
 var app = express();
 //view engine
@@ -30,10 +31,17 @@ app.use('/users/:id', users);
 app.use('/users/:id/group/:group', users);
 app.use('/users/:id/addGroup', users);
 app.use('/users/:id/addGroupValidate', users);
+app.use('/users/:id/removeGroup/:group', users);
 app.use('/users/:id/calendar', users);
 app.use('/users/:id/calendar/add', users);
 app.use('/users/:id/addToCalCheck', users);
+app.use('/users/:id/teams/:teamId', users);
 app.use('/users/:id/addTeam', users);
 app.use('/users/:id/addTeamValidate', users);
+//Api pages
+app.use('/api', api);
+app.use('/api/:id', api);
+app.use('/api/:id/groups', api);
+
 
 app.listen(3000, function(){console.log("Using port 3000")});
