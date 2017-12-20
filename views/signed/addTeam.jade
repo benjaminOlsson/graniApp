@@ -1,7 +1,7 @@
 extends logged
 block content
   div#addTeamBox
-    form(method="post" action="addTeamValidate")#addTeamForm
+    form(method="post" action="/api/#{id}/team")#addTeamForm
       p Team Name:
       input(name="teamName" type="text")
       p Sport:

@@ -4,7 +4,7 @@ block content
     h1 Add a group #{team.name}
     - a = team.length
     - if(a > 0){
-    form(method="POST" action="/users/#{id}/addGroupValidate")
+    form(method="POST" action="/api/#{id}/group")
       select(name="team")
         - for(let i = 0; i < a; i++){
         option(value="#{team[i].id}") #{team[i].name}

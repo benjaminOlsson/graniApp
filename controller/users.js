@@ -103,28 +103,25 @@ module.exports.group = function(req, res){
 //The page for adding groupes
 module.exports.addGroup = function(req, res){
   var team = [];
-  var o_id;
+  var o_id = new mongodb.ObjectId(req.params.id);
   MongoClient.connect(url, function(err, db){
     if(err){
       console.log(err);
     }else{
-    var collection = db.collection('users');
-    o_id = new mongodb.ObjectID(req.params.id);
-    collection = db.collection('teams');
-    collection.find({"users": [o_id]}).toArray(function(err, result){
+    collection = db.collection('users');
+    collection.find({"_id": o_id}).toArray(function(err, result){
       if(err){
         console.log(err);
       }else{
-        if(result.length > 0){
-          for(let i = 0; i < result.length; i++){
-            var t_id = new mongodb.ObjectId(result[i]._id);
-            team[i] = {name: result[i].name, id: t_id};
-            res.render('signed/addGroup', {
-              title: "Add Group",
-              id: o_id,
-              team: team
-            });
-          }
+        if(result[0]['teams'].length > 0){
+          result[0]['teams'].forEach(function(teams){
+            team.push({id: teams.id, name: teams.name});
+          });
+          res.render('signed/addGroup', {
+            title: "Add Group",
+            id: o_id,
+            team: team
+          });
         }else{
           res.render('signed/addGroup', {
             title: "Add Group",
@@ -138,7 +135,7 @@ module.exports.addGroup = function(req, res){
     });
 };
 //The page that validates a new added groupe
-module.exports.addGroupValidate = function(req, res){
+/*module.exports.addGroupValidate = function(req, res){
   var groupId = 0;
   var o_id = new mongodb.ObjectId(req.params.id);
   MongoClient.connect(url, function(err, db){
@@ -197,16 +194,16 @@ module.exports.addGroupValidate = function(req, res){
 
 
   });
-};
+};*/
 //Remove a group
-module.exports.removeGroup = function(req, res){
+/*module.exports.removeGroup = function(req, res){
   var group = new mongodb.ObjectId(req.params.group);
   var id = new mongodb.ObjectId(req.params.id);
   MongoClient.connect(url, function(err, db){
     var collection = db.collection('groups');
     collection.remove({})
   });
-}
+}*/
 //The calendar page
 module.exports.calendar = function(req, res){
   res.render('signed/calendar', {
@@ -279,7 +276,7 @@ module.exports.addTeam = function(req, res){
   });
 }
 //Add the team to the teams database
-module.exports.addTeamValidate = function(req, res){
+/*module.exports.addTeamValidate = function(req, res){
   var o_id = new mongodb.ObjectId(req.params.id);
   var storeId = 0;
   var person = {};
@@ -323,4 +320,4 @@ module.exports.addTeamValidate = function(req, res){
         });
       }
     });
-  };
+  };*/

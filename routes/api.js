@@ -4,7 +4,17 @@ var router = express.Router();
 
 
 router.get('/', api.noId);
+// User info
 router.get('/:id', api.getOneUser);
-router.get('/:id/groups', api.getUsersGroups);
+// Groups
+// Get all users groups
+router.get('/:id/group', api.getUsersGroup);
+// Add a group
+router.post('/:id/group', api.postOneGroup);
+// Teams
+// Get all users teams
+router.get('/:id/team', api.getUserTeam);
+// Add a team
+router.post('/:id/team', api.postOneTeam);
 
 module.exports = router;
