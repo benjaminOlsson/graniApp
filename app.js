@@ -39,6 +39,7 @@ app.use('/users/:id/addTeam', users);
 app.use('/api', api);
 app.use('/api/:id', api);
 app.use('/api/:id/group', api);
+app.use('/api/:id/group/:group', api);
 app.use('/api/:id/team', api);
 
 

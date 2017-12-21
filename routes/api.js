@@ -11,6 +11,8 @@ router.get('/:id', api.getOneUser);
 router.get('/:id/group', api.getUsersGroup);
 // Add a group
 router.post('/:id/group', api.postOneGroup);
+// Delete group
+router.delete('/:id/group/:group', api.deleteOneGroup);
 // Teams
 // Get all users teams
 router.get('/:id/team', api.getUserTeam);

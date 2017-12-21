@@ -83,15 +83,15 @@ module.exports.group = function(req, res){
         groupInfo.name = result[0].name;
         groupInfo.description = result[0].description;
         groupInfo.created = result[0].created;
+        groupInfo.id = groupId;
+        groupInfo.team = new mongodb.ObjectId(result[0].team);
       }
       });
       var inter = setInterval(function(){
         if(groupInfo.name !== 'undefined' && groupInfo.mod !== 'undefined'){
-          console.log(groupInfo);
           res.render('signed/group', {
             id: id,
-            name: groupInfo.name,
-            description: groupInfo.description
+            groupInfo: groupInfo
           });
           db.close();
           clearInterval(inter);

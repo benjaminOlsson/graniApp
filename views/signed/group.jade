@@ -1,6 +1,9 @@
 extends logged
 block content
   div#showSomething
-    h1= name
-    h1= description
-  a(href="users/#{id}/removegroup/#{group}")#removeGroup Remove Group
+    h1= groupInfo.name
+    h1= groupInfo.description
+  a(href="/users/#{id}/group/#{groupInfo.id}")#removeGroup Remove Group
+  script var groupId = !{JSON.stringify(groupInfo.id)}; var userId = !{JSON.stringify(id)};
+  script
+    include ../../public/javascript/group.js

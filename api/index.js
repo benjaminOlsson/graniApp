@@ -63,6 +63,7 @@ module.exports.postOneGroup = function(req, res){
     var team = new mongodb.ObjectId(req.body.team);
     var collection = db.collection('groups');
     group.name = req.body.name;
+    group.team = team;
     group.description = req.body.description;
     group.moderators = [o_id];
     group.users = [o_id];
@@ -89,6 +90,48 @@ module.exports.postOneGroup = function(req, res){
         });
       }
     });
+  });
+};
+// Remove a group
+module.exports.deleteOneGroup = function(req, res){
+  var o_id = new mongodb.ObjectId(req.params.id);
+  var g_id = new mongodb.ObjectId(req.params.group);
+  MongoClient.connect(url, function(err, db){
+    if(err){
+      console.log(err);
+    }else{
+      var collection = db.collection('groups');
+      collection.find({"_id": g_id}).toArray(function(err, result){
+        if(err){
+          console.log(err);
+        }else{
+          var t_id = new mongodb.ObjectId(result[0].team);
+          collection = db.collection('teams');
+          collection.update({"_id": t_id}, {$pull: {"groups": {"id": g_id}}}, function(err, result1){
+            if(err){
+              console.log(err);
+            }else{
+              collection = db.collection('users');
+              collection.update({"_id": o_id}, {$pull: {"groups": {"id": g_id}}}, function(err, result2){
+                if(err){
+                  console.log(err);
+                }else{
+                  collection = db.collection('groups');
+                  collection.remove({"_id": g_id}, function(err, result3){
+                    if(err){
+                      console.log(err);
+                    }else{
+                      db.close();
+                      res.redirect('/users/' + o_id);
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
   });
 };
 // Get api for users teams
