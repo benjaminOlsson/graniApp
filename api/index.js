@@ -122,7 +122,6 @@ module.exports.deleteOneGroup = function(req, res){
                       console.log(err);
                     }else{
                       db.close();
-                      res.redirect('/users/' + o_id);
                     }
                   });
                 }

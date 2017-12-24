@@ -80,11 +80,15 @@ module.exports.group = function(req, res){
         if(err){
           console.log(err);
         }else{
-        groupInfo.name = result[0].name;
-        groupInfo.description = result[0].description;
-        groupInfo.created = result[0].created;
-        groupInfo.id = groupId;
-        groupInfo.team = new mongodb.ObjectId(result[0].team);
+        if(result.length > 0){
+          groupInfo.name = result[0].name;
+          groupInfo.description = result[0].description;
+          groupInfo.created = result[0].created;
+          groupInfo.id = groupId;
+          groupInfo.team = new mongodb.ObjectId(result[0].team);
+        }else{
+          res.redirect('/users/' + id);
+        }
       }
       });
       var inter = setInterval(function(){
@@ -96,7 +100,7 @@ module.exports.group = function(req, res){
           db.close();
           clearInterval(inter);
         }
-      }, 100);
+      }, 200);
     }
   });
   };
