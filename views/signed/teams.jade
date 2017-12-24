@@ -4,3 +4,7 @@ block content
     h1= name
     h1= description
     h1= sport
+  a(href="/users/#{id}/teams/#{teamId}")#removeTeam Remove Team
+  script var teamId = !{JSON.stringify(teamId)}; var userId = !{JSON.stringify(id)};
+  script
+    include ../../public/javascript/team.js

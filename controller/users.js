@@ -251,24 +251,19 @@ module.exports.teams = function(req, res){
         if(err){
           console.log("id err", err);
         }else{
-          teamInfo.name = result[0].name;
-          teamInfo.description = result[0].description;
-          teamInfo.sport = result[0].sport;
+          if(result.length > 0){
+            res.render('signed/teams.jade', {
+              id: id,
+              team: result[0].name,
+              description: result[0].description,
+              sport: result[0].sport,
+              teamId: t_id
+            });
+          }else{
+            res.redirect('/users/' + id);
+          }
         }
       });
-      var checkInfo = setInterval(function(){
-        if((teamInfo.sport != undefined) || (teamInfo.sport != 'undefined')){
-          console.log("1");
-          db.close();
-          res.render('signed/teams', {
-            id: id,
-            name: teamInfo.name,
-            description: teamInfo.description,
-            sport: teamInfo.sport
-          });
-          clearInterval(checkInfo);
-        }
-      }, 200);
     }
   });
 };

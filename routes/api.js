@@ -18,5 +18,6 @@ router.delete('/:id/group/:group', api.deleteOneGroup);
 router.get('/:id/team', api.getUserTeam);
 // Add a team
 router.post('/:id/team', api.postOneTeam);
-
+// Delete team
+router.delete('/:id/team/:team', api.deleteOneTeam);
 module.exports = router;

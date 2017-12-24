@@ -23,6 +23,7 @@ module.exports.getOneUser = function(req, res){
     });
   });
 };
+// Group api
 // Get api for users groups
 module.exports.getUsersGroup = function(req, res){
   var o_id = new mongodb.ObjectId(req.params.id);
@@ -112,7 +113,7 @@ module.exports.deleteOneGroup = function(req, res){
               console.log(err);
             }else{
               collection = db.collection('users');
-              collection.update({"_id": o_id}, {$pull: {"groups": {"id": g_id}}}, function(err, result2){
+              collection.update({}, {$pull: {"groups": {"id": g_id}}}, function(err, result2){
                 if(err){
                   console.log(err);
                 }else{
@@ -133,6 +134,7 @@ module.exports.deleteOneGroup = function(req, res){
     }
   });
 };
+// Team api
 // Get api for users teams
 module.exports.getUserTeam = function(req, res){
   var o_id = new mongodb.ObjectId(req.params.id);
@@ -200,5 +202,74 @@ module.exports.postOneTeam = function(req, res){
         });
       }
     });
+  });
+};
+// Delete team
+module.exports.deleteOneTeam = function(req, res){
+  var o_id = new mongodb.ObjectId(req.params.id);
+  var t_id = new mongodb.ObjectId(req.params.team);
+  MongoClient.connect(url, function(err, db){
+    if(err){
+      console.log(err);
+    }else{
+      var collection = db.collection('teams');
+      collection.find({'_id': t_id}).toArray(function(err, result){
+        if(err){
+          console.log(err);
+        }else{
+          if(result[0]['groups'].length > 0){
+            var groups = result[0].groups;
+              collection = db.collection('users');
+              collection.update({}, {$pull: {'teams': {'id': t_id}}}, function(err, result3){
+                if(err){
+                  console.log(err);
+                }else{
+                  collection = db.collection('groups');
+                  groups.forEach(function(groupId){
+                    var g_id = groupId.id;
+                    collection.remove({'_id': g_id}, function(err, result6){
+                      if(err){
+                        console.log(err);
+                      }else{
+                        collection = db.collection('users');
+                        collection.update({}, {$pull: {'groups': {'id': g_id}}}, function(err, result7){
+                          if(err){
+                            console.log(err);
+                          }else{
+                            collection = db.collection('teams');
+                            collection.remove({'_id': t_id}, function(err, result7){
+                              if(err){
+                                console.log(err);
+                              }else{
+                                db.close();
+                              }
+                            });
+                        }
+                      });
+                    }
+                  });
+                });
+              }
+            });
+          }else{
+            collection = db.collection('users');
+            collection.update({}, {$pull: {'teams': {'id': t_id}}}, function(err, result8){
+              if(err){
+                console.log(err);
+              }else{
+                collection = db.collection('teams');
+                collection.remove({'_id': t_id}, function(err, result9){
+                  if(err){
+                    console.log(err);
+                  }else{
+                    db.close();
+                  }
+                });
+              }
+            });
+          }
+        }
+      });
+    }
   });
 };
