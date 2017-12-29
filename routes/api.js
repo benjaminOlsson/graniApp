@@ -4,8 +4,11 @@ var router = express.Router();
 
 
 router.get('/', api.noId);
-// User info
+// Users
+// Get a user
 router.get('/:id', api.getOneUser);
+// Delete a user
+router.delete('/:id', api.deleteOneUser);
 // Groups
 // Get all users groups
 router.get('/:id/group', api.getUsersGroup);

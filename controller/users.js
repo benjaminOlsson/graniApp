@@ -138,76 +138,13 @@ module.exports.addGroup = function(req, res){
     }
     });
 };
-//The page that validates a new added groupe
-/*module.exports.addGroupValidate = function(req, res){
-  var groupId = 0;
-  var o_id = new mongodb.ObjectId(req.params.id);
-  MongoClient.connect(url, function(err, db){
-    if(err){
-      console.log(err);
-    }else{
-      var group1 = {
-        name: req.body.name,
-        description: req.body.description,
-        moderators: [o_id],
-        users: [o_id],
-        created: new Date()
-      };
-      var collection = db.collection('groups');
-      collection.insert(group1, function(err, result){
-        if(err){
-          console.log("error at 1");
-        }
-      });
-      collection.find({"name": group1.name}).toArray(function(err, result){
-        if(err){
-          console.log("error at 2");
-        }else if(result.length > 0){
-          groupId = new mongodb.ObjectId(result[0]._id);
-          groupName = result[0].name;
-        }
-      });
-      var t_id = new mongodb.ObjectId(req.body.team);
-      collection = db.collection('teams');
-      var testgId = setInterval(function(){
-        if((groupId !== 0) || (groupId !== "0") || (groupId !== 'null') || (groupId !== null) || (groupId !== undefined) || (groupId !== 'undefined')){
-          if((groupName !== 0) || (groupName !== "0") || (groupName !== 'null') || (groupName !== null) || (groupName !== undefined) || (groupName !== 'undefined')){
-            var pushGroup = {"name": groupName, "id": groupId};
-              collection.update({"_id": t_id}, {$push: {"groups": groupId}}, function(err, result){
-                if(err){
-                  console.log(err);
-                  clearInterval(testgId);
-                }else{
-                  collection = db.collection('users');
-                  collection.update({"_id": o_id}, {"$push": {"groups": pushGroup}}, function(err, result){
-                    if(err){
-                      console.log("2");
-                      clearInterval(testgId);
-                    }else{
-                      console.log("pushed groupId to user");
-                      res.redirect('/users/' + o_id);
-                      clearInterval(testgId);
-                    }
-                });
-                }
-              });
-        }
-      }
-      }, 200);
-    }
-
-
-  });
-};*/
-//Remove a group
-/*module.exports.removeGroup = function(req, res){
-  var group = new mongodb.ObjectId(req.params.group);
+//The page for adding a team
+module.exports.addTeam = function(req, res){
   var id = new mongodb.ObjectId(req.params.id);
-  MongoClient.connect(url, function(err, db){
-    var collection = db.collection('groups');
-    collection.remove({})
+  res.render('signed/addTeam.jade', {
+    id: id
   });
-}*/
+};
 //The calendar page
 module.exports.calendar = function(req, res){
   res.render('signed/calendar', {
@@ -224,18 +161,7 @@ module.exports.addToCal = function(req, res){
 };
 //Adding the calendar input to mongoDb
 module.exports.addToCalCheck = function(req, res){
-  /*MongoClient.connect(url, function(err, db){
-    if(err){
-      console.log(err);
-    }else{
-      var calendarInput = {
-        year: req.body.year,
-        month: req.body.month,
-        day: req.body.dayOfMonth,
 
-      }
-    }
-  });*/
 };
 //Page for an overview of the team
 module.exports.teams = function(req, res){
@@ -267,56 +193,3 @@ module.exports.teams = function(req, res){
     }
   });
 };
-//Add a team page
-module.exports.addTeam = function(req, res){
-  var id = req.params.id;
-  res.render('signed/addTeam', {
-    id: id
-  });
-}
-//Add the team to the teams database
-/*module.exports.addTeamValidate = function(req, res){
-  var o_id = new mongodb.ObjectId(req.params.id);
-  var storeId = 0;
-  var person = {};
-  MongoClient.connect(url, function(err, db){
-    if(err){
-      console.log(err);
-    }else{
-      var collection = db.collection('teams');
-      var team = {
-        name: req.body.teamName,
-        description: req.body.description,
-        sport: req.body.sport,
-        moderators: [o_id],
-        users: [o_id],
-        groups: [],
-        created: new Date()
-      };
-      collection.insert([team], function(err, result){
-        if(err){
-          console.log(err);
-        }else{
-          storeId = {id: result.ops[0]._id, name: result.ops[0].name};
-          var storeTeamId = setInterval(function(){
-            if((storeId.id !== 0) || (storeId.id !== "0") || (storeId.id !== null) || (storeId.id !== 'null') || (storeId.id !== undefined) || (storeId.id !== "undefined")){
-              console.log(storeId);
-              clearInterval(storeTeamId);
-              collection = db.collection('users');
-              collection.update({"_id": o_id}, {$push: {"teams": storeId}}, function(err, result){
-                  if(err){
-                    console.log("error to userDB");
-                    clearInterval(storeTeamId);
-                  }else{
-                    db.close();
-                    res.redirect('/users/' + o_id);
-                    clearInterval(storeTeamId);
-                  }
-              });
-            }
-          }, 200);
-        }
-        });
-      }
-    });
-  };*/

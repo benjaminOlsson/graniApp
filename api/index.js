@@ -7,7 +7,7 @@ var url = 'mongodb://localhost:27017/myApp';
 module.exports.noId = function(req, res){
   res.send("Nada found");
 };
-// Api for a user id
+// User api
 // Get
 module.exports.getOneUser = function(req, res){
   var o_id = new mongodb.ObjectId(req.params.id);
@@ -19,6 +19,76 @@ module.exports.getOneUser = function(req, res){
       }else{
         db.close();
         res.send(result[0]);
+      }
+    });
+  });
+};
+// Add a user
+
+// Delete
+module.exports.deleteOneUser = function(req, res){
+  var o_id = new mongodb.ObjectId(req.params.id);
+  MongoClient.connect(url, function(err, db){
+    var collection = db.collection('users');
+    collection.find({'_id': o_id}).toArray(function(err, result){
+      if(err){
+        console.log(err);
+      }else{
+        console.log(result[0]['teams'].length);
+        console.log(result[0]['groups'].length);
+        if(result[0]['teams'].length > 0){
+          if(result[0]['groups'].length > 0){
+            collection = db.collection('groups');
+            collection.update({}, {$pull: {'users': o_id, 'moderators': o_id}}, function(err, result1){
+              if(err){
+                console.log(err);
+              }else{
+                collection = db.collection('teams');
+                collection.update({}, {$pull: {'users': o_id, 'moderators': o_id}}, function(err, result2){
+                  if(err){
+                    console.log(err);
+                  }else{
+                    collection = db.collection('users');
+                    collection.remove({'_id': o_id}, function(err, result3){
+                      if(err){
+                        console.log(err);
+                      }else{
+                        console.log('1');
+                        db.close();
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }else{
+            collection = db.collection('teams');
+            collection.update({}, {$pull: {'users': o_id, 'moderators': o_id}}, function(err, result1){
+              if(err){
+                console.log(err);
+              }else{
+                collection = db.collection('users');
+                collection.remove({'_id': o_id}, function(err, result2){
+                  if(err){
+                    console.log(err);
+                  }else{
+                    console.log('2');
+                    db.close();
+                  }
+                });
+              }
+            });
+          }
+        }else{
+          collection.remove({'_id': o_id}, function(err, result1){
+            if(err){
+              console.log(err);
+            }else{
+              db.close();
+              console.log('3');
+            }
+          });
+        }
       }
     });
   });

@@ -23,3 +23,7 @@ block content
       a(href="/users/#{id}/group/#{groupPath}").myGropes
         p #{groupName[i]}
       - }
+  a(href="/logout")#removeUser Delete User
+  script var userId = !{JSON.stringify(id)};
+  script
+    include ../../public/javascript/deleteUser.js

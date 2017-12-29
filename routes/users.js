@@ -4,12 +4,11 @@ var router = express.Router();
 
 router.get('/', contrUsers.usersOnly);
 router.get('/:id', contrUsers.frontPage);
-router.get('/:id/group/:group', contrUsers.group);
 router.get('/:id/addGroup', contrUsers.addGroup);
+router.get('/:id/addTeam', contrUsers.addTeam);
+router.get('/:id/group/:group', contrUsers.group);
+router.get('/:id/teams/:teamId', contrUsers.teams);
 router.get('/:id/calendar', contrUsers.calendar);
 router.get('/:id/calendar/add', contrUsers.addToCal);
 router.post('/:id/addToCalCheck', contrUsers.addToCalCheck);
-//Add a team to the database
-router.get('/:id/teams/:teamId', contrUsers.teams);
-router.get('/:id/addTeam', contrUsers.addTeam);
 module.exports = router;
