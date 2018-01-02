@@ -1,0 +1,86 @@
+html body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+a{
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+#headerDiv{
+  width: 100%;
+  height: 200px;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+}
+#centerHeadContent{
+  width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  margin-top: 0;
+  padding: 0;
+}
+#headerTitle{
+  position: absolute;
+  margin: 20px 0 0 20px;
+  width: 600px;
+  height: 100px;
+  text-align: center;
+  font-size: 17px;
+}
+#headerAddGroup{
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  margin: 20px 0 0 1100px;
+  border: none;
+}
+#logout{
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  margin: 20px 0 0 1000px;
+  border: none;
+}
+#headerCalendar{
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  margin: 20px 0 0 900px;
+  border: none;
+}
+#headerAddTeam{
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  margin: 20px 0 0 800px;
+  border: none;
+}
+.gray{
+  background-color: gray;
+}
+#sidebar{
+  position: fixed;
+  width: 350px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+#sidebarHeader{
+  font-weight: bold;
+
+}
+#mainArea{
+  position: fixed;
+  left: 350px;
+  top: 100px;
+  width: 100%;
+  height: 100%;
+  overflow-x: scroll;
+}

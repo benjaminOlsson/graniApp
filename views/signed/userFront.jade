@@ -1,5 +1,20 @@
 extends logged
 block content
+  div#sidebar.gray
+    h2#sidabarHeader Teams:
+    ul#personalInfoUl
+      - b = teams.length
+      - for(let i = 0; i < b; i++){
+          a(href="/users/#{id}/teams/#{teams[i].id}").personalInfo #{teams[i].name}
+          br
+      - }
+    h2#sidebarHeader Groups:
+    ul
+    - a = group.length
+    - for(let i = 0; i < a; i++){
+      - groupPath = group[i].id
+      a(href="/users/#{id}/group/#{groupPath}").myGropes #{group[i].name}
+    - }
   div#profilePicDiv
   h1#nameOfUser #{fname} #{lname}
   div#personalInfo
@@ -8,21 +23,7 @@ block content
       li.personalInfoLi Username: #{username}
       li.personalInfoLi Email: #{email}
       li.personalInfoLi Address: #{address} #{postcode}, #{city}
-    h3 Users Teams
-    ul#personalInfoUl
-      - b = teams.length
-      - for(let i = 0; i < b; i++){
-        a(href="/users/#{id}/teams/#{teams[i].id}").personalInfo #{teams[i].name}
-        br
-      - }
   div#showGroups
-    h1#myGroups Groups
-      - a = group.length
-      - for(let i = 0; i < a; i++){
-      - groupPath = group[i].id
-      a(href="/users/#{id}/group/#{groupPath}").myGropes
-        p #{groupName[i]}
-      - }
   a(href="/logout")#removeUser Delete User
   script var userId = !{JSON.stringify(id)};
   script

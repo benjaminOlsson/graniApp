@@ -1,4 +1,5 @@
 var mongodb = require('mongodb');
+var moment = require('moment');
 var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://localhost:27017/myApp';
 
@@ -34,10 +35,9 @@ module.exports.deleteOneUser = function(req, res){
       if(err){
         console.log(err);
       }else{
-        console.log(result[0]['teams'].length);
-        console.log(result[0]['groups'].length);
         if(result[0]['teams'].length > 0){
           if(result[0]['groups'].length > 0){
+            console.log('wrong');
             collection = db.collection('groups');
             collection.update({}, {$pull: {'users': o_id, 'moderators': o_id}}, function(err, result1){
               if(err){
@@ -62,6 +62,7 @@ module.exports.deleteOneUser = function(req, res){
               }
             });
           }else{
+            console.log('right');
             collection = db.collection('teams');
             collection.update({}, {$pull: {'users': o_id, 'moderators': o_id}}, function(err, result1){
               if(err){
@@ -80,6 +81,7 @@ module.exports.deleteOneUser = function(req, res){
             });
           }
         }else{
+          console.log('wrong again');
           collection.remove({'_id': o_id}, function(err, result1){
             if(err){
               console.log(err);
@@ -342,4 +344,91 @@ module.exports.deleteOneTeam = function(req, res){
       });
     }
   });
+};
+module.exports.calendarDay = function(req, res){
+  var theDay = req.params.day;
+  var theMonth = req.params.month;
+  var theYear = req.params.year;
+
+  function aDay(year, month, date){
+    this.year = year;
+    this.month = month;
+    this.date = date;
+    this.today = (moment(year +'-'+ month +'-'+ date, 'YYYY-MM-DD').diff(moment().format('YYYY-MM-DD'))) === 0 ? true : false;
+    this.day = moment(year + '-' + month + '-' + date, 'YYYY-MM-DD').format('d');
+    this.dayName = moment(year + '-' + month + '-' + date, 'YYYY-MM-DD').format('dddd');
+    this.dayOfYear = moment(year +'-'+ month +'-'+ date, 'YYYY-MM-DD').dayOfYear();
+    this.valid = moment(year + '-' + month + '-' + date, 'YYYY-MM-DD').isValid();
+  };
+  var day = new aDay(theYear, theMonth, theDay);
+  res.send(day);
+};
+module.exports.calendarMonth = function(req, res){
+  var theMonth = req.params.month;
+  var theYear = req.params.year;
+  //A date object
+  function aDay(year, month, date){
+    this.year = year;
+    this.month = month;
+    this.date = date;
+    this.today = (moment(year +'-'+ month +'-'+ date, 'YYYY-MM-DD').diff(moment().format('YYYY-MM-DD'))) === 0 ? true : false;
+    this.day = moment(year + '-' + month + '-' + date, 'YYYY-MM-DD').format('d');
+    this.dayName = moment(year + '-' + month + '-' + date, 'YYYY-MM-DD').format('dddd');
+    this.dayOfYear = moment(year +'-'+ month +'-'+ date, 'YYYY-MM-DD').dayOfYear();
+    this.valid = moment(year + '-' + month + '-' + date, 'YYYY-MM-DD').isValid();
+  };
+  // A month object
+  function aMonth(year, month){
+    this.month = month;
+    this.year = year;
+    this.monthName = moment(year +'-'+ month, 'YYYY-MM').format('MMMM');
+    this.daysInMonth = moment(this.year +'-'+ this.month, 'YYYY-MM').daysInMonth();
+    this.valid = moment(year +'-'+ month, 'YYYY-MM').isValid();
+  };
+  aMonth.prototype.days = function(){
+    var result = [];
+    for(let i = 1; i <= this.daysInMonth; i++){
+      var day = new aDay(this.year, this.month, i);
+      result.push(day);
+    }
+    return result;
+  }
+  //Calling the calendar object
+  var month = new aMonth(theYear, theMonth);
+  res.send(month.days());
+};
+module.exports.calendarYear = function(req, res){
+  var theYear = req.params.year;
+  // A month object
+  function aMonth(year, month){
+    this.month = month;
+    this.year = year;
+    this.thisMonth = (moment(year +'-'+ month, 'YYYY-MM').diff(moment().format('YYYY-MM'))) === 0 ? true : false;
+    this.monthName = moment(year +'-'+ month, 'YYYY-MM').format('MMMM');
+    this.daysInMonth = moment(this.year +'-'+ this.month, 'YYYY-MM').daysInMonth();
+    this.valid = moment(year +'-'+ month, 'YYYY-MM').isValid();
+  };
+  aMonth.prototype.days = function(){
+    var result = [];
+    for(let i = 1; i <= this.daysInMonth; i++){
+      var day = new aDay(this.year, this.month, i);
+      result.push(day);
+    }
+    return result;
+  }
+  // A year object
+  function aYear(year){
+    this.year = year;
+    this.valid = moment(year, 'YYYY').isValid();
+  };
+  aYear.prototype.months = function(){
+    var result = [];
+    for(let i = 1; i <= 12; i++){
+      var month = new aMonth(this.year, i);
+        result.push(month);
+    }
+    return result;
+  };
+  var year = new aYear(theYear);
+  res.send(year.months());
 };

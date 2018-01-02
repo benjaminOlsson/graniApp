@@ -1,0 +1,10 @@
+#calendar1{
+  width: 1300px;
+  border: 1px solid black;
+}
+.calendarDay1{
+  text-align: center;
+}
+.today1{
+  background-color: blue;
+}

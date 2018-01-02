@@ -23,4 +23,7 @@ router.get('/:id/team', api.getUserTeam);
 router.post('/:id/team', api.postOneTeam);
 // Delete team
 router.delete('/:id/team/:team', api.deleteOneTeam);
+router.get('/calendar/:year/:month/:day', api.calendarDay);
+router.get('/calendar/:year', api.calendarYear);
+router.get('/calendar/:year/:month', api.calendarMonth);
 module.exports = router;

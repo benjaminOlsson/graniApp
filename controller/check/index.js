@@ -29,7 +29,6 @@ module.exports.authUser = function(firstname, lastname, gender, age, address, po
       }
       if(password1[i] == parseInt(password1[i])){
         ++number;
-        console.log(password1[i]);
       }
     }
   }else{

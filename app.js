@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path = require('path');
+var moment = require('moment');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -42,6 +43,9 @@ app.use('/api/:id/group', api);
 app.use('/api/:id/group/:group', api);
 app.use('/api/:id/team', api);
 app.use('/api/:id/team/:team', api);
+app.use('/api/calendar/:year/:month/:day', api);
+app.use('/api/calendar/:year', api);
+app.use('/api/calendar/:year/:month', api);
 
 
 app.listen(3000, function(){console.log("Using port 3000")});

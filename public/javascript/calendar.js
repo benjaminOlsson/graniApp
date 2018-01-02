@@ -78,7 +78,6 @@
           ++monthThisDay;
         }
       }
-      console.log(monthDays);
       var z = 0;
       var countRows = 0;
       var countDays = 0;
@@ -150,8 +149,10 @@
       var row = calendarId.insertRow(0);
       if(num > 0){
         weekThisMonday = weekThisMonday + 1;
+        console.log('used');
       }else if(num < 0){
         weekThisMonday = weekThisMonday - 13;
+        console.log('used');
       }
       for(let i = 0; i < 7; i++){
         if(i !== 6){
@@ -257,44 +258,44 @@
       daysTillNow += (tmp[0].date) - yearStart[tmp[0].year];
       weekThisWeek = Math.floor((daysTillNow / 7) + 1);
       calendarMonth.innerText = weekThisWeek + " " ;
-  }
+    }
   //Change week
     function nextWeek(){
-    renderWeek(1);
-    getWeek();
-  }
-    function lastWeek(){
-    renderWeek(-1);
-    getWeek();
-  }
-    function changeView(){
-    if(weekOrMonth === 1){
-      weekOrMonth = 0;
-      lastMonthButton.removeEventListener('click', lastWeek);
-      nextMonthButton.removeEventListener('click', lastWeek);
-      lastMonthButton.addEventListener('click', lastMonth);
-      nextMonthButton.addEventListener('click', lastMonth);
-      setDate(0);
-      getStartDay();
-      renderDays();
-      calendarMonthAndYear.innerText = months[setCal.month] + " " + setCal.year;
-    }else{
-      weekOrMonth = 1;
-      lastMonthButton.removeEventListener('click', lastMonth);
-      nextMonthButton.removeEventListener('click', nextMonth);
-      lastMonthButton.addEventListener('click', lastWeek);
-      nextMonthButton.addEventListener('click', nextWeek);
-      renderWeek(0);
+      renderWeek(1);
       getWeek();
     }
-  }
+    function lastWeek(){
+      renderWeek(-1);
+      getWeek();
+    }
+    function changeView(){
+      if(weekOrMonth === 1){
+        weekOrMonth = 0;
+        lastMonthButton.removeEventListener('click', lastWeek);
+        nextMonthButton.removeEventListener('click', lastWeek);
+        lastMonthButton.addEventListener('click', lastMonth);
+        nextMonthButton.addEventListener('click', lastMonth);
+        setDate(0);
+        getStartDay();
+        renderDays();
+        calendarMonthAndYear.innerText = months[setCal.month] + " " + setCal.year;
+      }else{
+        weekOrMonth = 1;
+        lastMonthButton.removeEventListener('click', lastMonth);
+        nextMonthButton.removeEventListener('click', nextMonth);
+        lastMonthButton.addEventListener('click', lastWeek);
+        nextMonthButton.addEventListener('click', nextWeek);
+        renderWeek(0);
+        getWeek();
+      }
+    }
   var toggleWeek = document.getElementById('toggleWeek');
   toggleWeek.addEventListener('click', changeView);
 
     window.onload = (function(){
-    setDate(0);
-    getStartDay();
-    renderDays();
-    calendarMonthAndYear.innerText = months[setCal.month] + " " + setCal.year;
-    tmp = [];
-  }());
+      setDate(0);
+      getStartDay();
+      renderDays();
+      calendarMonthAndYear.innerText = months[setCal.month] + " " + setCal.year;
+      tmp = [];
+    }());

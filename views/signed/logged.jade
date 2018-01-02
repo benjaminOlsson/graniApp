@@ -1,14 +1,14 @@
 html
   head
     title= title
-    link(rel="stylesheet" type="text/css" href="/styles/front/mainStyle.css")
-    link(rel="stylesheet" type="text/css" href="/styles/partials/headerStyle.css")
+    link(rel="stylesheet" type="text/css" href="/styles/signed/loggedTemplate.css")
     link(rel="stylesheet" type="text/css" href="/styles/signed/userProfiles.css")
     link(rel="stylesheet" type="text/css" href="/styles/signed/groupAndTeam.css")
     link(rel="stylesheet" type="text/css" href="/styles/signed/addTheGroup.css")
     link(rel="stylesheet" type="text/css" href="/styles/signed/calendar.css")
     link(rel="stylesheet" type="text/css" href="/styles/signed/addToCal.css")
     link(rel="stylesheet" type="text/css" href="/styles/signed/addTeam.css")
+    link(rel="stylesheet" type="text/css" href="/styles/signed/altCal.css")
   body
     div#headerDiv.noSpaces
       div#centerHeadContent
@@ -19,6 +19,5 @@ html
         a(href="/logout")#logOut.gray Log Out
         a(href="/users/#{id}/calendar")#headerCalendar.gray Calendar
         a(href="/users/#{id}/addTeam")#headerAddTeam.gray Add Team
-
-    div#mainBox
+    div#mainArea
       block content

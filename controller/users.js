@@ -1,6 +1,7 @@
 var mongodb = require('mongodb');
+var moment = require('moment');
 var MongoClient = mongodb.MongoClient;
-var url = 'mongodb://localhost:27017/myApp'
+var url = 'mongodb://localhost:27017/myApp';
 
 //The 404 page for goint to users without an valid id
 module.exports.usersOnly = function(req, res){
@@ -193,3 +194,4 @@ module.exports.teams = function(req, res){
     }
   });
 };
+//Testing alternative Calendar
